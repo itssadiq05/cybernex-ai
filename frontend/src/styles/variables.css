@@ -1,0 +1,26 @@
+:root {
+  /* Color System */
+  --bg-primary: #050505;
+  --bg-secondary: #080808;
+  --bg-tertiary: #0b0b0d;
+
+  --surface-1: #111214;
+  --surface-2: #151619;
+  --surface-3: #1a1b1f;
+
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-bright: rgba(255, 255, 255, 0.15);
+
+  --accent-lime: #ccff00;
+  --accent-cyan: #00f0ff;
+  --accent-red: #ff3366;
+  --accent-amber: #ffb800;
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}

@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: cybernex_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: cybernex_user
+      POSTGRES_PASSWORD: cybernex_password
+      POSTGRES_DB: cybernex_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cybernex_user -d cybernex_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cybernex_backend
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://cybernex_user:cybernex_password@db:5432/cybernex_db
+      - JWT_SECRET=cybernex_secret_key_change_in_production_32bytes
+      - ENVIRONMENT=development
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cybernex_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
